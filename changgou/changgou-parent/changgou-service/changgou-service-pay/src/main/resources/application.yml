@@ -1,0 +1,64 @@
+server:
+  port: 18089
+
+# spring配置
+spring:
+  application:
+    name: pay
+  main:
+    allow-bean-definition-overriding: true
+
+  # MQ 配置IP、端口、用户名、密码
+  rabbitmq:
+    host: 192.168.2.104
+    port: 5672
+    username: guest
+    password: guest
+
+# eureka 配置
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:7001/eureka
+  instance:
+    prefer-ip-address: true
+
+# feign 配置
+feign:
+  hystrix:
+    enabled: true
+
+# hystrix 配置
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          #如果enabled设置为false，则请求超时交给ribbon控制
+          enabled: true
+        isolation:
+          strategy: SEMAPHORE
+
+#微信支付信息配置
+weixin:
+  # 应用ID（微信支付平台应用ID）
+  appid: wx8397f8696b538317
+  # 商户ID
+  partner: 1473426802
+  # 秘钥
+  partnerkey: T6m9iK73b0kn9g5v426MKfHQH7X8rKwb
+  # 支付回调地址
+  notifyurl: http://29852j5m43.imdo.co/weixin/pay/notify/url
+
+#位置支付交换机和队列
+mq:
+  pay:
+    exchange:
+      order: exchange.order # 意思是等下要发到哪个交换机，交换机名称为：exchange.order
+      eckillorder: exchange.seckillorder
+    queue:
+      order: queue.order # 队列名称为：queue.order
+      eckillorder: queue.seckillorder
+    routing:
+      key: queue.order
+      eckillkey: queue.seckillorder

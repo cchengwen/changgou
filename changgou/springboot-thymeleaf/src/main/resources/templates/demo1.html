@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<!--
+    引入Thymeleaf 标签
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Thymeleaf模板引擎案例</title>
+</head>
+<body>
+<!--
+    Thymeleaf标签使用，需要在指定的标签上使用Thymeleaf相关的语法
+-->
+<div th:text="${message}"></div>
+
+<h5>h:action 指定表单提交的路径</h5>
+<div>
+    th:action 指定表单提交的路径
+    <form id="login=form" th:action="@{/test/hello}">
+        <button>提交</button>
+    </form>
+</div>
+
+<h5>th:each循环标签</h5>
+<div>
+    th:each循环标签
+    <table>
+        <tr>
+            <td>下标</td>
+            <td>ID</td>
+            <td>NAME</td>
+            <td>ADDRESS</td>
+        </tr>
+        <!--    循环
+           <tr th:each="user,userSta:${users}">说明：
+           参数1：user--当前被循环的对象
+           参数2：userSta---当前被循环的对象状态记录，例如：下标，第几条
+        -->
+        <tr th:each="user,userSta:${users}">
+            <td th:text="${userSta.index}"></td>
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.name}"></td>
+            <td th:text="${user.address}"></td>
+        </tr>
+    </table>
+</div>
+
+<h5>读取Map：2种方式</h5>
+<div>
+    读取Map：2种方式 <br/>
+    1:知道Map的Key，直接根据Key获取数据<br/>
+    2:不知道Map的Key，使用循环的方式获取Key，然后获取数据<br/>
+    <h1>方式1</h1>
+    <div>
+        获取Key=No的值:<span th:text="${dataMap.No}"></span><br/>
+        获取Key=Address的值:<span th:text="${dataMap.Address}"></span><br/>
+    </div>
+    <h1>方式2</h1>
+    <div th:each="map:${dataMap}">
+        <span th:text="${map.key}"></span>:<span th:text="${map.value}"></span>
+    </div>
+</div>
+
+<h5>Date数据获取</h5>
+<div>
+    Date数据获取
+    <div>
+        <span th:text="${#dates.format(date, 'yyyy-mm-dd HH:mm:ss')}"></span>
+    </div>
+</div>
+
+<h5>if条件判断</h5>
+<div>
+    if条件判断：th:unless表示条件不成立时输入指定数据
+    <div>
+        <span th:if="${age >= 18}">成年人</span>
+        <span th:unless="${age <= 18}">成年人</span>
+    </div>
+</div>
+
+<h5>下面是引入的一个公共模块</h5>
+<div>
+    下面是引入的一个公共模块
+    <div>
+        <div id="A" th:include="footer::copy"></div>
+    </div>
+</div>
+</body>
+</html>

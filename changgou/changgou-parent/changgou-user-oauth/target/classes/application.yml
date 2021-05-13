@@ -1,0 +1,48 @@
+server:
+  port: 9001
+
+spring:
+  application:
+    name: user-auth
+
+  redis:
+    host: 192.168.2.102
+    port: 6379
+    password:
+    jedis:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
+
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/changgou_user?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true&serverTimezone=UTC
+    username: root
+    password: root
+  main:
+    allow-bean-definition-overriding: true
+
+# eureka 配置
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:7001/eureka
+
+# auth 配置
+auth:
+  ttl: 3600  #token存储到redis的过期时间
+  clientId: changgou # 客户的ID
+  clientSecret: changgou # 客户的秘钥
+  cookieDomain: localhost #
+  cookieMaxAge: -1
+
+# 本地证书和秘钥以及证书密码配置
+encrypt:
+  key-store:
+    location: classpath:/changgou68.jks # 指定证书的路径，注：此文件在resources目录下名为changgou68.jks
+    secret: changgou68 # 秘钥，是指生成秘钥时指定的密码
+    alias: changgou68 # 证书的别名，是指生成秘钥时指定的别名
+    password: changgou68 # 证书的密码，是指生成秘钥时指定的密码

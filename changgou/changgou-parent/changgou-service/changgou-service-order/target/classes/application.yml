@@ -1,0 +1,63 @@
+# 端口号
+server:
+  port: 18088
+
+# spring配置
+spring:
+  application:
+    name: order
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/changgou_order?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    username: root
+    password: root
+
+  # redis 配置
+  redis:
+    host: 127.0.0.1
+    port: 6379
+  main:
+    allow-bean-definition-overriding: true
+
+  # MQ 配置IP、端口、用户名、密码
+  rabbitmq:
+    host: 192.168.2.104
+    port: 5672
+    username: guest
+    password: guest
+
+# eureka 配置
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:7001/eureka
+  instance:
+    prefer-ip-address: true
+
+# feign配置，开启Feign的熔断，有一个默认隔离策略：默认是线程池隔离
+feign:
+  hystrix:
+    enabled: true
+
+# hystrix 配置
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          # 此为超时时间
+#          thread:
+#            timeoutInMilliseconds: 10000
+          # 换成此就是信号量隔离
+          strategy: SEMAPHORE
+
+
+#位置支付交换机和队列
+mq:
+  pay:
+    exchange:
+      order: exchange.order # 意思是等下要发到哪个交换机，交换机名称为：exchange.order
+    queue:
+      order: queue.order # 队列名称为：queue.order
+    routing:
+      key: queue.order
